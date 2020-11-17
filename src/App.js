@@ -1,44 +1,21 @@
 import React, { useEffect, useState } from "react";
+
+import { get } from "./modules/rest";
 import Main from "./components/Main";
 import './App.css';
 
 function App() {
   const [cards, setCards] = useState([]);
 
-  const key = "5f96aff04b77c1637d147e14";
-  const url = "https://carsdb-97db.restdb.io/rest/cards";
-
   useEffect(() => {
-    fetch(url, {
-      method: "get",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "x-apikey": key,
-        "cache-control": "no-cache"
-      }
-    })
-      .then(e => e.json())
-      .then(data => setCards(data));
-
-
+    get(setCards)
   }, []);
-  const day = "monday".split("").join(" ");
-  const message = "Hi Mom";
-  const addCard = () => {
-    setCards(cards.concat({
-      task: "Learn React " + Math.random(),
-      list: ["todo", "doing", "done"][Math.floor(Math.random() * 3)],
-      highlight: false
-    }))
-  }
+
   return (
     <>
-      <h1>Hello {`my friend it's ${day}`}</h1>
-      <button onClick={addCard}>Add Card</button>
       <div className="App">
         <Nav />
-
-        <Main cards={cards} message={message} />
+        <Main cards={cards} />
       </div>
     </>
   );
